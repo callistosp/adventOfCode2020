@@ -1,6 +1,6 @@
 library(tidyverse)
 
-input <- data.table::fread("day1/input.txt", header = F)
+input <- data.table::fread("01/input.txt", header = F)
 input
 
 max.n <- nrow(input)

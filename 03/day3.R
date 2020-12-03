@@ -17,10 +17,10 @@ while(position$y < length.map){
   ## traverse down 1 and right 3
   position$y <- position$y + 1
   position$x <- ifelse(
-    position$x + 3 <= width,
+    position$x + 3 <= width.map,
     position$x + 3,
     ## if we go off the map, reset location so we can reuse single map
-    position$x + 3 - width
+    position$x + 3 - width.map
   )
   
   print(paste0("row ", position$y, " column ", position$x))
@@ -39,34 +39,22 @@ while(position$y < length.map){
 print(tree.count)
 
 #### PART TWO SOLUTION
-
-slopes <- list(
-  list(x=1, y=1),
-  list(x=3, y=1),
-  list(x=5, y=1),
-  list(x=7, y=1),
-  list(x=1, y=2)
-)
-trees <- list()
-
-for(i in 1:length(slopes)){
+traverseMap <- function(.slope, .width.map, .length.map){
+  ## set start position
   tree.count <- 0
   position <- list(x=1, y=1)
   
-  while(position$y < length.map){
+  while(position$y < .length.map){
     ## traverse down slope.y and right slope.x
-    position$y <- position$y + slopes[[i]]$y
+    position$y <- position$y + .slope$y
     position$x <- ifelse(
-      position$x + slopes[[i]]$x <= width,
-      position$x + slopes[[i]]$x,
+      position$x + .slope$x <= .width.map,
+      position$x + .slope$x,
       ## if we go off the map, reset location so we can reuse single map
-      position$x + slopes[[i]]$x - width
+      position$x + .slope$x - .width.map
     )
-    
-    # print(paste0("row ", position$y, " column ", position$x))
-    
+
     tmp <- substr(input$V1[position$y], position$x, position$x)
-    # print(tmp)
     tree <- tmp == "#"
     
     tree.count <- ifelse(
@@ -75,9 +63,17 @@ for(i in 1:length(slopes)){
       tree.count
     )
   }
-  
-  trees[[i]] <- tree.count
+  return(tree.count)
 }
+
+slopes <- list(
+  list(x=1, y=1),
+  list(x=3, y=1),
+  list(x=5, y=1),
+  list(x=7, y=1),
+  list(x=1, y=2)
+)
+trees <- map(slopes, ~ traverseMap(.x, width.map, length.map))
 
 trees
 prod(unlist(trees))

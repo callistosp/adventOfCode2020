@@ -1,6 +1,6 @@
 library(tidyverse)
 
-input <- data.table::fread("day2/input.txt", header=FALSE)
+input <- data.table::fread("02/input.txt", header=FALSE)
 input
 
 ## clean and rename columns
