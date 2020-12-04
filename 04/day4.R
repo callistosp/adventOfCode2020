@@ -1,7 +1,4 @@
-library(dplyr)
-library(tidyr)
-library(purrr)
-library(stringr)
+library(tidyverse)
 
 input <- readLines("04/input.txt")
 input
@@ -14,7 +11,6 @@ input.list <- list()
 tmp <- ""
 for(i in 1:length(input)){
   ## stop and save when reach line break
-  ## wrap in json format
   if(input[i] == ""){
     input.list[[length(input.list) + 1]] <- tmp
     tmp <- ""
@@ -29,10 +25,13 @@ for(i in 1:length(input)){
 }
 input.list
 
+## build single row within each list object then bind together
 out <- map(input.list, 
            ~ read.table(text=gsub(" ", "\n", .x), sep=":", comment.char="$") %>% 
              tidyr::pivot_wider(names_from = "V1", values_from = "V2") %>% 
              mutate_all(as.character)) %>% 
+  ## imputes NAs for any missing
+  ## leverage this to easily filter out rows missing obs
   bind_rows()
 
 head(out)
