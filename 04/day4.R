@@ -6,6 +6,13 @@ input
 ## append "" to final line to make it a complete case
 input[length(input) + 1] <- ""
 
+# ## alternative (this doens't work yet...)
+# ## basically remove all line breaks, and you get it in the right format...
+# tmp <- tempfile()
+# cat(input, sep="\t") %>% str_replace_all("\t\t","\n") %>% str_replace_all("\t", " ")
+# input.char <- readLines(tmp)
+# input.char %>% str_replace_all("\t\t","\n") %>% str_replace_all("\t", " ")
+
 ## collapse all to single row
 input.list <- list()
 tmp <- ""
