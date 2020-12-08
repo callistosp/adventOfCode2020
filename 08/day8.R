@@ -17,6 +17,8 @@ traverse <- function(input.loop, return.command = F){
     ## if reach end of file, print and quit (added for part two)
     if(i > nrow(input.loop)){ 
       print("SUCCESS")
+      ## set accumulator to negative value to escape loop
+      accumulator <- accumulator * -1
       break
     }
     ## capture commands encountered, don't return by default
@@ -69,4 +71,6 @@ for(j in 1:nrow(clean.out)){
     )
   out <- traverse(tmp)
   print(out)
+  ## if encounter negative accumulator, quit the loop
+  if(out<0) break
 }
