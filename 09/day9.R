@@ -4,8 +4,7 @@ input <- readLines("09/input.txt") %>% as.double()
 input
 
 #### PART ONE SOLUTION
-## construct matrix of sums
-## arr ALWAYS 25 long array
+## construct half-matrix of sums
 construct.mat <- function(arr){
   out <- list()
   for(i in 1:(length(arr)-1)){
@@ -15,8 +14,10 @@ construct.mat <- function(arr){
   return(unlist(out))
 }
 
-## check values in matrix
-## arr.n ALWAYS 26 long array (includes test at end)
+## check values in matrix (includes test at end)
+## ALWAYS TRUE: length(arr.n) = length(arr) + 1
+## value returns T if last entry in vector included in the
+## half-matrix of sums from entries 1-25 of the vector
 check.array <- function(arr.n){
   arr <- construct.mat(arr.n[1:(length(arr.n)-1)])
   return(any(arr == arr.n[length(arr.n)]))
@@ -34,6 +35,16 @@ for(j in 1:length(input)){
 }
 
 #### PART TWO SOLUTION
-for(j in 1:length(input)){
-  
+find.sum <- function(.input, .ref){
+  for(j in 1:length(.input)){
+    for(k in (j+1):length(.input)){
+      tmp <- sum(input[j:k])
+      if(tmp == .ref) return(sum(min(input[j:k]),max(input[j:k])))
+      ## if sum greater than ref, move on to next j
+      if(tmp > .ref) break
+    }
+  }
 }
+
+ref <- 26796446
+find.sum(input, ref)
